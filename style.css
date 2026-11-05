@@ -1,0 +1,291 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ==========================================================================
+   Base & Typography
+   ========================================================================== */
+html, body, .stApp {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+.stApp [data-testid="stHeader"] {
+    background-color: transparent !important;
+}
+
+.stApp [data-testid="stSidebar"] {
+    border-right: 1px solid var(--border-color, rgba(128, 128, 128, 0.2)) !important;
+}
+
+.stApp [data-testid="stSidebar"] label {
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+}
+
+/* ==========================================================================
+   Inputs & Controls
+   ========================================================================== */
+.stApp div[data-baseweb="input"],
+.stApp div[data-baseweb="select"],
+.stApp div[data-baseweb="select"] > div,
+.stApp input,
+.stApp select {
+    background-color: var(--secondary-background-color) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(128, 128, 128, 0.25) !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+}
+
+.stApp [data-testid="stNumberInputStepDown"],
+.stApp [data-testid="stNumberInputStepUp"],
+.stApp div[data-baseweb="input"] button {
+    background-color: transparent !important;
+    color: var(--text-color) !important;
+    border: none !important;
+}
+
+.stApp [data-testid="stNumberInputStepDown"]:hover,
+.stApp [data-testid="stNumberInputStepUp"]:hover,
+.stApp div[data-baseweb="input"] button:hover {
+    background-color: rgba(128, 128, 128, 0.15) !important;
+}
+
+.stApp *:focus {
+    outline: none !important;
+}
+
+/* ==========================================================================
+   Metrics Cards
+   ========================================================================== */
+.stApp div[data-testid="stMetric"] {
+    background-color: var(--secondary-background-color) !important;
+    border: 1px solid rgba(128, 128, 128, 0.2) !important;
+    border-radius: 6px !important;
+    padding: 14px 16px !important;
+}
+
+.stApp div[data-testid="stMetric"] label {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+}
+
+.stApp div[data-testid="stMetric"] [data-testid="stMetricValue"] {
+    font-size: 1.4rem !important;
+    font-weight: 600 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.stApp .stButton > button,
+.stApp div.stButton > button:first-child {
+    background-color: #2563EB !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    font-size: 0.88rem !important;
+    padding: 8px 18px !important;
+    box-shadow: none !important;
+}
+
+.stApp .stButton > button:hover {
+    background-color: #1D4ED8 !important;
+    color: #FFFFFF !important;
+}
+
+.stApp .stButton > button p,
+.stApp .stButton > button span {
+    color: #FFFFFF !important;
+}
+
+/* ==========================================================================
+   Tabs Navigation
+   ========================================================================== */
+.stApp .stTabs [data-baseweb="tab-highlight-title"],
+.stApp .stTabs [data-baseweb="tab-highlight"],
+.stApp .stTabs [data-baseweb="tab-border"] {
+    display: none !important;
+    height: 0px !important;
+}
+
+.stApp .stTabs [data-baseweb="tab-list"] {
+    background-color: transparent !important;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2) !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+}
+
+.stApp .stTabs [data-baseweb="tab"] {
+    background-color: transparent !important;
+    color: var(--text-color) !important;
+    opacity: 0.7;
+    font-weight: 500 !important;
+    font-size: 0.85rem !important;
+    border: none !important;
+    padding: 8px 18px !important;
+    border-bottom: 2px solid transparent !important;
+    flex-shrink: 0 !important;
+    transition: all 0.2s ease !important;
+}
+
+.stApp .stTabs [data-baseweb="tab"]:hover {
+    opacity: 1;
+}
+
+.stApp .stTabs [aria-selected="true"] {
+    color: #2563EB !important;
+    opacity: 1 !important;
+    font-weight: 600 !important;
+    border-bottom: 2px solid #2563EB !important;
+    background-color: transparent !important;
+}
+
+/* ==========================================================================
+   Containers, DataFrames & Expanders
+   ========================================================================== */
+.stApp [data-testid="stDataFrame"] {
+    background: var(--secondary-background-color) !important;
+    border: 1px solid rgba(128, 128, 128, 0.2) !important;
+    border-radius: 6px !important;
+    overflow-x: auto !important;
+}
+
+.stApp .streamlit-expanderHeader {
+    background: var(--secondary-background-color) !important;
+    color: var(--text-color) !important;
+    border-radius: 6px !important;
+    border: 1px solid rgba(128, 128, 128, 0.2) !important;
+    font-size: 0.84rem !important;
+}
+
+.stApp .streamlit-expanderContent {
+    background: var(--background-color) !important;
+    border: 1px solid rgba(128, 128, 128, 0.2) !important;
+    border-top: none !important;
+    border-radius: 0 0 6px 6px !important;
+}
+
+.stApp .stAlert {
+    border-radius: 6px !important;
+}
+
+.stApp hr {
+    border-color: rgba(128, 128, 128, 0.2) !important;
+}
+
+/* ==========================================================================
+   Custom Utility Classes (Mensagens, Badges e Sintaxe)
+   ========================================================================== */
+.nota-rodape {
+    font-size: 0.78rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin: 6px 0 18px 0;
+}
+
+.sintaxe-item {
+    font-size: 0.8rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    margin: 2px 0;
+    line-height: 1.7;
+}
+
+.sintaxe-item code {
+    background: rgba(128, 128, 128, 0.15);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: #2563EB;
+}
+
+/* Boxes de Status Customizados */
+.status-box {
+    padding: 12px 16px;
+    border-radius: 6px;
+    border-left: 4px solid #2563EB;
+    background-color: var(--secondary-background-color);
+    margin: 10px 0;
+    font-size: 0.85rem;
+}
+
+.status-sucesso {
+    border-left-color: #10B981 !important;
+    background-color: rgba(16, 185, 129, 0.1) !important;
+}
+
+.status-erro {
+    border-left-color: #EF4444 !important;
+    background-color: rgba(239, 68, 68, 0.1) !important;
+}
+
+.status-aviso {
+    border-left-color: #F59E0B !important;
+    background-color: rgba(245, 158, 11, 0.1) !important;
+}
+
+.status-info {
+    border-left-color: #3B82F6 !important;
+    background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Badges / Tags de Estado */
+.badge-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.badge-ativo {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: #10B981;
+}
+
+.badge-pendente {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: #F59E0B;
+}
+
+.badge-inativo {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #EF4444;
+}
+
+/* ==========================================================================
+   Responsividade (Mobile)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .stApp div[data-testid="stMetric"] {
+        padding: 10px 12px !important;
+        margin-bottom: 8px !important;
+    }
+    .stApp div[data-testid="stMetric"] [data-testid="stMetricValue"] {
+        font-size: 1.1rem !important;
+    }
+    .stApp .stButton > button {
+        width: 100% !important;
+    }
+}
+/* ==========================================================================
+   Ajuste de Largura do Modal / Lightbox (st.dialog)
+   ========================================================================== */
+.stApp div[data-testid="stDialog"] > div {
+    max-width: 85vw !important;
+    width: 850px !important;
+}
+
+/* Garante que o bloco de código dentro do modal ocupe 100% da largura */
+.stApp div[data-testid="stDialog"] pre,
+.stApp div[data-testid="stDialog"] [data-testid="stCodeBlock"] {
+    width: 100% !important;
+    max-width: 100% !important;
+}
