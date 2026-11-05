@@ -44,6 +44,69 @@ O projeto foi dividido em pequenas caixas de ferramentas para o código não vir
 
 ---
 
+## 🔍 Como cada código funciona por dentro (Por trás dos panos)
+
+### 🛠️ O Faxineiro de Dados
+
+* **`sanitizador.py`**:
+  * **O que faz:** Transforma o que o usuário digita na tela (ex: `xˆ3`, `9x`, `2,5x`) em código que o Python e o LaTeX entendem.
+  * **Como funciona:** Usa a biblioteca de expressões regulares (`re`) para trocar `,` por `.`, e atalhos humanos (`sen`, `tg`, `ln`, `raiz`) por funções do Python (`sin`, `tan`, `log`, `sqrt`). Depois, roda o `parse_expr` do `sympy` com regras de multiplicação implícita para transformar `9x` em `9*x` sem quebrar a execução.
+
+---
+
+### 🎯 1. Zeros de Funções
+
+* **`bissecao.py`**:
+  * **Como chega no resultado:** Avalia $f(a)$ e $f(b)$ usando a função de avaliação segura (`eval`). Se $f(a) \cdot f(b) > 0$, ele aborta porque não cumpre o Teorema de Bolzano. No loop `for`, calcula o ponto médio $m = (a+b)/2$, descobre de qual lado o sinal muda e atualiza $a$ ou $b$. A cada passo, salva os valores em um dicionário dentro do histórico para alimentar o gráfico no Streamlit.
+* **`falsa_posicao.py`**:
+  * **Como chega no resultado:** Segue a mesma estrutura de histórico e validação da Bissecção, mas troca a fórmula do ponto médio pela fórmula da reta secante: `ponto = (a * fb - b * fa) / (fb - fa)`. O resto da lógica de substituição dos limites do intervalo permanece idêntico.
+* **`newton.py`**:
+  * **Como chega no resultado:** Usa uma função auxiliar de derivada que tenta usar a derivada simbólica do `sympy` (`diff`). Se falhar, calcula via diferença finita central `(f(x+h) - f(x-h))/(2h)`. No loop, calcula $x_{novo} = x_{atual} - f(x)/f'(x)$. Se $f'(x) \approx 0$, o código interrompe a execução para evitar a divisão por zero.
+* **`secantes.py`**:
+  * **Como chega no resultado:** Recebe dois pontos iniciais ($x_0, x_1$). A cada passo do loop, calcula a inclinação da reta secante usando o quociente de diferenças entre os dois últimos pontos (`den = f_curr - f_prev`) e encontra o próximo chute sem precisar derivar a função.
+
+---
+
+### 🔢 2. Sistemas Lineares
+
+* **`eliminacao_gauss.py`**:
+  * **Como chega no resultado:** Executa um loop por colunas. Em cada coluna, busca a linha com o maior valor absoluto para realizar o **pivoteamento parcial** (troca de linhas para evitar divisão por zero). Depois, calcula o multiplicador e zera os elementos abaixo do pivô. No final, roda um loop de trás para frente (substituição regressiva) para isolar e calcular cada variável.
+* **`fatoracao_lu.py`**:
+  * **Como chega no resultado:** Inicializa a matriz $L$ como identidade e a matriz $U$ como uma cópia de $A$. Durante o escalonamento, guarda os multiplicadores dentro da matriz $L$. Para resolver o sistema $A x = b$, executa duas etapas simples: primeiro resolve $L y = b$ de cima para baixo (substituição progressiva) e em seguida $U x = y$ de baixo para cima.
+* **`gauss_jacobi.py`**:
+  * **Como chega no resultado:** Recebe um vetor de chute inicial. Em cada iteração $k$, calcula todas as variáveis do vetor novo `x_novo` utilizando **exclusivamente** os valores das variáveis salvas no vetor antigo `x` da iteração anterior. No final de cada ciclo, calcula o erro relativo máximo e substitui o vetor antigo pelo novo.
+* **`gauss_seidel.py`**:
+  * **Como chega no resultado:** Funciona de forma similar ao Jacobi, mas não utiliza um vetor novo separado. Ele atualiza os valores diretamente na mesma lista em tempo real. Assim, quando o algoritmo vai calcular $x_2$, ele já utiliza o valor de $x_1$ recém-calculado na própria iteração corrente, acelerando a convergência.
+
+---
+
+### 📈 3. Ajuste de Curvas
+
+* **`ajuste_polinomial.py`**:
+  * **Como chega no resultado:** Para ajustar um polinômio de grau $m$, calcula os somatórios das potências de $x$ ($\sum x^0, \sum x^1 \dots$) para preencher a matriz das Equações Normais $A$ e o vetor $B$. Resolve esse sistema linear com a Eliminação de Gauss para obter os coeficientes. Em seguida, calcula a Soma Quadrática dos Resíduos (SQE) e entrega o coeficiente de determinação $R^2 = 1 - (SQE / SQT)$.
+
+---
+
+### 🔀 4. Interpolação Polinomial
+
+* **`interpolacao_definicao.py` (Vandermonde)**:
+  * **Como chega no resultado:** Constrói uma matriz quadrada $V$ onde cada coluna $j$ da linha $i$ contém $x_i^j$. Em seguida, resolve o sistema linear $V \cdot a = y$. O vetor resultante $a$ contém os coeficientes exatos da forma canônica do polinômio.
+* **`interpolacao_lagrange.py`**:
+  * **Como chega no resultado:** Usa o `sympy` para construir expressões simbólicas. Para cada ponto $i$, roda um loop para calcular o polinômio base $L_i(x) = \prod \frac{x - x_j}{x_i - x_j}$. Multiplica cada $L_i(x)$ por seu respetivo $y_i$, soma todos e roda a função `expand()` para retornar a expressão simplificada do polinômio final.
+* **`interpolacao_newton.py`**:
+  * **Como chega no resultado:** Monta uma matriz triangular contendo a tabela de diferenças divididas de todas as ordens. Extrai os elementos da primeira linha da tabela (que são os coeficientes de Newton) e constrói o polinômio na forma produtória $P(x) = c_0 + c_1(x-x_0) + c_2(x-x_0)(x-x_1) \dots$.
+
+---
+
+### 📐 5. Integração Numérica
+
+* **`regra_trapezios.py`**:
+  * **Como chega no resultado:** Divide o intervalo $[a, b]$ em $n$ pedaços de tamanho $h = (b-a)/n$. Avalia os pontos e atribui peso 1 para o primeiro e último ponto ($x_0, x_n$) e peso 2 para todos os pontos intermediários. Soma todos os valores ponderados e multiplica o resultado por $h / 2$. Retorna também a geometria de cada trapézio para plotar o gráfico.
+* **`regra_simpson.py` (1ª Regra de Simpson - 1/3)**:
+  * **Como chega no resultado:** Valida se o número de subintervalos $n$ é par. Atribui pesos no padrão $1, 4, 2, 4, 2 \dots 4, 1$ (sendo 4 para os nós de índice ímpar e 2 para os nós de índice par). Soma esses termos e multiplica por $h / 3$. Para o gráfico visual, calcula a interpolação parabólica de 3 em 3 pontos.
+
+---
+
 ## 💻 Como Rodar essa joça no seu PC
 
 ### 1. Pré-requisitos
